@@ -7,9 +7,9 @@ namespace SharpSocks
     {
         Socket Create (AddressFamily domain, SocketType type, ProtocolType protocol);
 
-        void Connect (Socket socket, EndPoint address);
+        void Connect (Socket socket, string file);
 
-		void Bind(Socket socket, EndPoint address);
+		void Bind(Socket socket, string file);
 
         void Listen(Socket socket);
 

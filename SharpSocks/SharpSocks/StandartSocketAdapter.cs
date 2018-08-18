@@ -3,24 +3,27 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using SharpSocks.Exceptions;
+using SharpSocks.Utility;
 
 namespace SharpSocks
 {
-    public class StandardSocketAdapter : ISocketAdapter
+    public class StandartSocketAdapter : ISocketAdapter
     {
         public Socket Create (AddressFamily domain, SocketType type, ProtocolType protocol)
         {
             return new Socket(domain, type, protocol);
         }
 
-        public void Connect (Socket socket, EndPoint address)
+        public void Connect (Socket socket, string file)
         {
-            socket.Connect(address);
+            var unixEp = new UnixEndPoint(file);
+            socket.Connect(unixEp);
         }
 
-        public void Bind(Socket socket, EndPoint address)
+        public void Bind(Socket socket, string file)
         {
-            socket.Bind(address);
+            var unixEp = new UnixEndPoint(file);
+            socket.Connect(unixEp);
         }
 
         public void Listen(Socket socket)
@@ -55,7 +58,7 @@ namespace SharpSocks
             {
                 throw new UnixSocketException(ex.SocketErrorCode);
             }
-            catch (ObjectDisposedException ex)
+            catch (ObjectDisposedException)
             {
                 throw new UnixSocketException(SocketError.Shutdown);
             }
@@ -72,7 +75,7 @@ namespace SharpSocks
                 {
                     throw new UnixSocketException(ex.SocketErrorCode);
                 }
-                catch (ObjectDisposedException ex)
+                catch (ObjectDisposedException)
                 {
                     throw new UnixSocketException(SocketError.Shutdown);
                 }
@@ -96,7 +99,7 @@ namespace SharpSocks
             {
                 throw new UnixSocketException(ex.SocketErrorCode);
             }
-            catch (ObjectDisposedException ex)
+            catch (ObjectDisposedException)
             {
                 throw new UnixSocketException(SocketError.Shutdown);
             }

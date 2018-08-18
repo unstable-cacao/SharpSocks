@@ -4,30 +4,30 @@ namespace SharpSocks
 {
     public interface IClient
     {
-        void setFile(string path);
-        string getFile();
+        void SetFile(string path);
+        string GetFile();
         
-        bool tryConnect();
-        void connect();
-        void accept(long? timeout = null);
-        void tryAccept(long? timeout = null);
-        void close();
+        bool TryConnect();
+        void Connect();
+        void Accept(double? timeout = null);
+        bool TryAccept(double? timeout = null);
+        void Close();
         
-        bool isOpen();
-        bool isClosed();
+        bool IsOpen();
+        bool IsClosed();
         
-        Socket getSocket();
+        Socket GetSocket();
         
         
-        bool hasInput();
+        bool HasInput();
         
-        string read(int? maxLength = 1024, long? timeout = null);
-        string readExactly(int? length = 1024, long? timeout = null);
-        string readLine(long? timeout = null, int? maxLength = null);
+        string Read(int? maxLength = 1024, double? timeout = null);
+        string ReadExactly(int? length = 1024, double? timeout = null);
+        string ReadLine(double? timeout = null, int? maxLength = null);
 
-        string readUntil(string stop, long? timeout = null, int? maxLength = null);
+        string ReadUntil(string[] stop, double? timeout = null, int? maxLength = null);
         
-        void write(string input);
-        void writeLine(string input);
+        void Write(string input);
+        void WriteLine(string input);
     }
 }

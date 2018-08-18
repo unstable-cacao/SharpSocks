@@ -4,9 +4,8 @@ namespace SharpSocks.Exceptions
 {
     public class UnixSocketException : System.Exception
     {
-        public UnixSocketException(SocketError error) : base(error.ToString())
-        {
-            
-        }
+        public UnixSocketException() {}
+        
+        public UnixSocketException(SocketError error) : base(error.ToString()) {}
     }
 }
