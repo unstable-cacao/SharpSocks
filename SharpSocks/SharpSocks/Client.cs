@@ -108,7 +108,9 @@ namespace SharpSocks
         
         public Client(ISocketAdapter connection, string file = null, IClientPlugin plugin = null)
         {
-            this.Connection = connection;
+            this.Connection = connection ?? new StandartSocketAdapter();
+            this.File = file;
+            this.Plugin = plugin;
         }
 
         ~Client ()
