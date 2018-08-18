@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using SharpSocks.Exceptions;
@@ -9,20 +10,15 @@ namespace SharpSocks
     public class Client : IClient
     {
         private const double BIG_FLOAT = 5000000000.0;
+        private static readonly List<string> ENDLINE_CHARS = new List<string> {"\n", "\r"};
 
-        private static string[] ENDLINE_CHARS = {"\n", "\r"};
-
-        private string File;
-
-        private IClientPlugin Plugin;
+        private IClientPlugin Plugin = null;
         
-        private string Buffer;
-        
-        private ISocketAdapter Connection;
-        
-        private Socket IoSocket;
-        
-        private List<Socket> AllSockets;
+        private string Buffer = null;
+        private string File = null;
+        private ISocketAdapter Connection = null;
+        private Socket IoSocket = null;
+        private List<Socket> AllSockets = null;
 
 
         private bool ReadIntoInternalBuffer(int maxLength = 1024, string data = null)
@@ -316,11 +312,11 @@ namespace SharpSocks
 		    return this.ReadUntil(ENDLINE_CHARS, timeout, maxLength);
         }
 
-        public string ReadUntil(string[] stop, double? timeout = null, int? maxLength = null)
+        public string ReadUntil(IEnumerable<string> stop, double? timeout = null, int? maxLength = null)
         {
             this.ValidateOpen();
             
-            if (stop is null || stop.Length <= 0)
+            if (stop is null || stop.Count() <= 0)
                 throw new FatalUnixSocksException("Stop parameter required");
             
             this.ValidateTimeout(ref timeout);
@@ -335,6 +331,7 @@ namespace SharpSocks
                 
                 if (timeout.Value == 0)
                 {
+                    // Should not timeout be eq some f(BIG_FLOAT) ?
                     timeout = 5000000;
                     breakWhenEmpty = true;
                 }

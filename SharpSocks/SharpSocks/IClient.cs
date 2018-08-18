@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace SharpSocks
@@ -25,7 +27,7 @@ namespace SharpSocks
         string ReadExactly(int? length = 1024, double? timeout = null);
         string ReadLine(double? timeout = null, int? maxLength = null);
 
-        string ReadUntil(string[] stop, double? timeout = null, int? maxLength = null);
+        string ReadUntil(IEnumerable<string> stop, double? timeout = null, int? maxLength = null);
         
         void Write(string input);
         void WriteLine(string input);
